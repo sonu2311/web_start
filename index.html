@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<style type="text/css">
+</style>
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+ 
+<p>Backend ke support se bna hua calculator</p>
+
+X <input type="number" ng-model='x'>
+<br>
+<br>
+Y <input type="number" ng-model='y'>
+<br>
+<br>
+<button ng-click='calculate()' >Calculate</button>
+<br>
+<br>
+X + Y = {{z}}
+
+</div>
+
+<script type="text/javascript">
+  
+var app = angular.module("myApp", []);
+app.controller("myCtrl", function($scope, $http) {
+  $scope.x = 0
+  $scope.y = 0
+  $scope.z = ""
+  $scope.calculate = function() {
+
+    var req = {
+      method: 'POST',
+      url: '/api/sum2',
+      headers: {
+       'Content-Type': 'application/json'
+      },
+      data: {x: $scope.x, y: $scope.y}
+    }
+    $http(req).then(function(d) {
+      $scope.z = d.data
+    });
+  }
+  $scope.firstName = "John";
+  $scope.lastName = "Doe";
+});
+
+</script>
+</body>
+</html>
