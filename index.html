@@ -23,28 +23,26 @@ X + Y = {{z}}
 </div>
 
 <script type="text/javascript">
-  
+
+var api = function(http, api_url, input, callback) {
+  input = input || {}
+  return http({
+    method: "POST",
+    url: api_url,
+    headers: {'Content-Type': 'application/json'},
+    data: input}).then(callback);
+}
+
 var app = angular.module("myApp", []);
 app.controller("myCtrl", function($scope, $http) {
   $scope.x = 0
   $scope.y = 0
   $scope.z = ""
   $scope.calculate = function() {
-
-    var req = {
-      method: 'POST',
-      url: '/api/sum2',
-      headers: {
-       'Content-Type': 'application/json'
-      },
-      data: {x: $scope.x, y: $scope.y}
-    }
-    $http(req).then(function(d) {
+    api($http, '/api/sum2', {x: $scope.x, y: $scope.y}, function(d) {
       $scope.z = d.data
-    });
+    })
   }
-  $scope.firstName = "John";
-  $scope.lastName = "Doe";
 });
 
 </script>
